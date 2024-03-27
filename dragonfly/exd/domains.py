@@ -112,7 +112,7 @@ class IntegralDomain(Domain):
   def __init__(self, bounds):
     """ Constructor. """
     _check_if_valid_euc_int_bounds(bounds)
-    self.bounds = np.array(bounds, dtype=np.int)
+    self.bounds = np.array(bounds, dtype=int)
     self.diameter = np.linalg.norm(self.bounds[:, 1] - self.bounds[:, 0])
     self.dim = len(bounds)
     super(IntegralDomain, self).__init__()
@@ -127,7 +127,7 @@ class IntegralDomain(Domain):
 
   def is_a_member(self, point):
     """ Returns true if point is in the domain. """
-    are_ints = [isinstance(x, (int, np.int, np.int64)) for x in point]
+    are_ints = [isinstance(x, (int, np.int64)) for x in point]
     return all(are_ints) and is_within_bounds(self.bounds, point)
 
   def members_are_equal(self, point_1, point_2):
@@ -450,7 +450,7 @@ class CartesianProductDomain(Domain):
       name_to_pt_dict = {k:v for (k, v) in zip(self.raw_name_ordering, raw_point)}
       ret_all = self._evaluate_all_constraints(raw_point, name_to_pt_dict)
       for idx, elem in enumerate(ret_all):
-        if not isinstance(elem, (bool, np.bool, np.bool_)):
+        if not isinstance(elem, (bool, np.bool_)):
           raise ValueError(
             'Constraint %d:%s (%s) returned %s. It should return type bool.'%(idx,
             self.domain_constraints[idx][0], self.domain_constraints[idx][1], str(elem)))
